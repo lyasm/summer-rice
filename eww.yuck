@@ -1,0 +1,40 @@
+;; Variables
+
+
+(defpoll monitors :interval "1m" "hyprctl monitors -j | jq -rc '[ .[].id ] | sort_by( . )'")
+(deflisten workspace "scripts/workspace")
+
+
+
+;; widgets
+
+
+(defwidget workspaces []
+  (literal 
+    :content workspace))
+
+
+
+;;define widget groups
+(defwidget left []
+	(box 
+	    :orientation "h" 
+		:space-evenly false  
+        :halign "start"
+		:class "left_modules"
+    (workspaces)))
+
+;;Define bar
+(defwindow bar0
+    :exclusive false
+    :monitor 0
+    :geometry (geometry 
+        :x "10px"
+        :y "5px"
+        :width "98%"
+        :height "30px"
+        :anchor "top center")
+    :stacking "fg"
+    :exclusive "true"
+    :windowtype "dock"
+    (left))

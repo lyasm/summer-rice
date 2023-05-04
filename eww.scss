@@ -1,0 +1,87 @@
+/** EWW.SCSS
+Created by saimoom **/
+*{
+	all: unset;
+	font-family: feather;
+	font-family: Inter Nerd Font;
+}
+
+$background: rgba(00, 00, 00, 0.3);
+$widget-background: rgba(30, 30, 30, 0.4);
+$shadow:    rgba(00, 00, 00, 0.4);
+$grey:      #606060;
+
+$black:     #3D4C5F;
+$red:       #EE4F84;
+$green:     #53E2AE;
+$orange:    #F1FA8C;
+$blue:      #92B6F4;
+$purple:    #985EFF;
+$teal:      #24D1E7;
+$white:     #E5E5E5;
+
+/** General **/
+.bar_class {
+    background-color: rgba(00, 00, 00, 0.55);
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2;
+    border-color: $green;
+}
+.module {
+    margin: 0px 0px 0px 0px;
+    border-radius: 10px 10px 0px 10px;
+}
+
+
+.leftside{
+    background-color: $background;
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2;
+    border-color: $green;
+    padding: 0px 30px 0px 30px;
+}
+
+
+/** tooltip!! **/
+tooltip.background {
+    background-color: rgba(00, 00, 00, 0.0);
+    font-size: 18;
+    border-radius: 10px;
+    color: $background;
+}
+
+tooltip label {
+    margin: 6px;
+}
+
+
+/** Widgets **/
+
+.works {
+font-size: 27px;
+font-weight: normal;
+margin: 5px 0px 0px 10px;
+background-color: rgba(00, 00, 00, 0.0);
+}
+
+.0 , .01, .02, .03, .04, .05, .06,
+.011, .022, .033, .044, .055, .066{
+  margin: 0px 10px 0px 0px;
+}
+
+/* Unoccupied */
+.0 {
+color: $grey;
+}
+
+/* Occupied */
+.01, .02, .03, .04, .05, .06, .07, .08, .09 {
+  color: $white;
+}
+
+/* Focused */
+.011, .022, .033, .044, .055, .066, .077, .088, .099{
+  color: $green;
+}

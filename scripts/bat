@@ -1,0 +1,16 @@
+#!/bin/bash
+
+bat() {
+
+cat /sys/class/power_supply/BAT0/capacity
+}
+bat_stat() {
+	cat /sys/class/power_supply/BAT0/status
+}
+
+
+if [[ "$1" == "--bat" ]]; then
+	battery
+elif [[ "$1" == "--stat" ]]; then
+	battery_stat
+fi
