@@ -3,7 +3,8 @@
 
 (defpoll monitors :interval "1m" "hyprctl monitors -j | jq -rc '[ .[].id ] | sort_by( . )'")
 (deflisten workspace "scripts/workspace")
-
+(defpoll wlan-status :interval "2s" "scripts/wlan -stat")
+(defpoll wlan-essid :interval "2s" "scripts/wlan --ESSID")
 
 
 ;; widgets
