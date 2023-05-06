@@ -5,12 +5,18 @@
 (deflisten workspace "scripts/workspace")
 (defpoll wlan-status :interval "2s" "scripts/wlan -stat")
 (defpoll wlan-essid :interval "2s" "scripts/wlan --ESSID")
-(defpoll time :interval "5m" "date +\%T ")
+(defpoll time :interval "5ms" "date +\%T ")
 (defpoll week :interval "2s" "date +\%U ")
 
+(defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 
 
 ;; widgets
+;;TODO:
+;;	mem/cpu gr aph
+;;	battery 
+;;	wlan
+;;	volume/brightness
 
 
 (defwidget workspaces []
@@ -19,9 +25,57 @@
 
 (defwidget time []
   (box :orientation "horizontal"
-       :halign "center"
-time week
-(button :onclick "notify-send 'Hi' '${EWW_NET}'""Click")))
+       :halign "end"
+       :class "time"
+       :tooltip "${EWW_BATTERY.BAT0.capacity}%"
+       :space-evenly false
+time " | KW: " week
+;;(button :onclick "notify-send 'Hi' '${EWW_NET}'""Click")
+))
+
+(defwidget bat []
+      (circular-progress :value {EWW_BATTERY.BAT0.capacity}
+                :class "bat"
+                :thickness 4
+            (label :text "󱐋"
+                :class "bat_icon"
+                :limit-width 2
+                :show_truncated false
+                :wrap false
+		:tooltip "${EWW_BATTERY.BAT0.capacity}%")))
+
+(defwidget mem []
+      (circular-progress :value {EWW_RAM.used_mem_perc}
+                :class "mem"
+                :thickness 4
+	(label :text "󰘚"
+                :class "mem_icon"
+                :limit-width 2
+                :show_truncated false
+                :wrap false
+		:tooltip "${EWW_RAM.used_mem_perc}%")))
+
+(defwidget cpu []
+      (circular-progress :value {EWW_CPU.avg}
+                :class "cpu"
+                :thickness 4
+	(label :text ""
+                :class "cpu_icon"
+                :limit-width 2
+                :show_truncated false
+                :wrap false
+		:tooltip "${EWW_CPU.avg}%")))
+
+
+(defwidget vol []
+	(button   :onclick ""   :class "volume_icon" "")
+	(scale    :class "volbar"
+			  :value volume_percent
+			  :orientation "h"
+			  :tooltip "${volume_percent}%"
+			  :max 100
+			  :min 0
+			  :onchange "amixer -D pulse sset Master {}%" ))
 
 
 
@@ -32,7 +86,15 @@ time week
 		:space-evenly false  
         :halign "start"
 		:class "left_modules"
-    (workspaces)(time)))
+    (workspaces)))
+
+(defwidget right []
+	(box 
+	    :orientation "h" 
+		:space-evenly false  
+        :halign "end"
+		:class "right_modules"
+    (vol)(cpu)(mem)(bat)(time)))
 
 ;;Define bar
 (defwindow bar0
@@ -47,7 +109,8 @@ time week
     :stacking "fg"
     :exclusive "true"
     :windowtype "dock"
-    (left))
+    (box :orientation "h"
+    (left)(right)))
 
 (defwindow bal
     :exclusive false
