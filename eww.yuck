@@ -3,20 +3,20 @@
 
 (defpoll monitors :interval "1m" "hyprctl monitors -j | jq -rc '[ .[].id ] | sort_by( . )'")
 (deflisten workspace "scripts/workspace")
-(defpoll wlan-status :interval "2s" "scripts/wlan -stat")
-(defpoll wlan-essid :interval "2s" "scripts/wlan --ESSID")
+(defpoll wlan-status :interval "2s" "nmcli g | grep -v STATE| awk '{print ($1)}'")
+(defpoll wlan-essid :interval "2s" "nmcli d | grep wlan0 | awk '{print ($4)}'")
 (defpoll time :interval "5ms" "date +\%T ")
 (defpoll week :interval "2s" "date +\%U ")
 
-(defpoll volume_percent :interval "3s" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
-
+(defpoll vol_perc :interval "5ms" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll bright_perc :interval "5ms" "brightnessctl | grep Current | awk -F'(' '{ print $2 }' | tr -d '%)'")
 
 ;; widgets
 ;;TODO:
-;;	mem/cpu gr aph
+;;	mem/cpu 
 ;;	battery 
-;;	wlan
-;;	volume/brightness
+;;	wlan 
+;;	volume/brightness 
 
 
 (defwidget workspaces []
@@ -66,17 +66,38 @@ time " | KW: " week
                 :wrap false
 		:tooltip "${EWW_CPU.avg}%")))
 
-
 (defwidget vol []
-	(button   :onclick ""   :class "volume_icon" "")
-	(scale    :class "volbar"
-			  :value volume_percent
-			  :orientation "h"
-			  :tooltip "${volume_percent}%"
-			  :max 100
-			  :min 0
-			  :onchange "amixer -D pulse sset Master {}%" ))
+  (box :class "volbar" :orientation "v" :spacing 1 :space-evenly "false" :valign "center"
+    (label :class "volume_icon"
+    :text " ")
+    (scale :min 0 :max 100 :value vol_perc :active "true"  :onchange "amixer sset Master {}%")))
 
+(defwidget bright []
+  (box :class "brightbar" :orientation "v" :spacing 1 :space-evenly "false" :valign "center"
+    (label :class "bright_icon" :text "󰃠 ")
+    (scale :min 0 :max 100 :value bright_perc :active "true"  :onchange "amixer sset Master {}%")))
+
+
+(defvar wifi_rev false)
+(defwidget wifi [] 
+  (eventbox 
+    :onhover "${EWW_CMD} update wifi_rev=true"
+	:onhoverlost "${EWW_CMD} update wifi_rev=false"
+	(box
+	    :vexpand "false"
+	    :hexpand "false"
+	    :space-evenly "false"
+		(label
+		    :class "module-wif"
+		    :text {wlan-status == "connected" ? "󰤨" : "n"})
+		    (revealer
+	        :transition "slideleft"
+		      :reveal wifi_rev
+			    :duration "350ms"
+		(label
+	          :class "module_essid"
+			      :text wlan-essid)
+	       ))))
 
 
 ;;define widget groups
@@ -94,7 +115,7 @@ time " | KW: " week
 		:space-evenly false  
         :halign "end"
 		:class "right_modules"
-    (vol)(cpu)(mem)(bat)(time)))
+    (wifi)(bright)(vol)(cpu)(mem)(bat)(time)))
 
 ;;Define bar
 (defwindow bar0
@@ -111,17 +132,3 @@ time " | KW: " week
     :windowtype "dock"
     (box :orientation "h"
     (left)(right)))
-
-(defwindow bal
-    :exclusive false
-    :monitor 0
-    :geometry (geometry 
-        :x "10px"
-        :y "5px"
-        :width "98%"
-        :height "30px"
-        :anchor "top center")
-    :stacking "fg"
-    :exclusive "true"
-    :windowtype "dock"
-  (test))

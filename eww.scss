@@ -23,7 +23,7 @@ $white:     #E5E5E5;
 
 /** tooltip!! **/
 tooltip.background {
-    background-color: rgba(00, 00, 00, 0.0);
+    background-color: rgba(00, 00, 00, 1.0);
     font-size: 18;
     border-radius: 10px;
     color: #ffffff;
@@ -65,8 +65,8 @@ border-radius: 5px;
 }
 
 .mem_icon {
-    font-size: 20px;
-    margin: 10px;
+    font-size: 17;
+    margin: 10px 13px 10px 10px;
     color: #6500d7;
 }
 
@@ -77,8 +77,8 @@ border-radius: 5px;
 }
 
 .cpu_icon {
-    font-size: 15px;
-    margin: 15px;
+    font-size: 15;
+    margin: 10px 15px 10px 10px;
     color: #d76500;
 }
 
@@ -90,16 +90,60 @@ border-radius: 5px;
 
 
 
-.volbar {
-  background: linear-gradient(to right, #afcee0 30%, #a1bdce 50%, #77a5bf 100% *50);
-  border-radius: 10px;
-}f
-.volume_icon {
-    font-size: 22;
-    color: #a1bdce;
-  margin: 0px 10px 0px 10px;
+scale trough {
+  all: unset;
+  background-color: #9a9790;
+  border-radius: 6px;
+  min-height: 4px;
+  min-width: 40px;
+  margin: 0px 0px 0px 0px;
 }
 
+.volbar {
+    margin: 0px 5px 0px 0px;
+}
+
+.volbar scale trough highlight {
+  all: unset;
+  background-color: #9E4323;
+  border-radius: 4px;
+}
+
+.volume_icon {
+  margin: 0px  2px    ;
+  color:#9E4323 ;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+
+.brightbar {
+    margin: 0px 5px 0px 0px;
+}
+
+.brightbar scale trough highlight {
+  all: unset;
+  background-color: #fffddf;
+  border-radius: 4px;
+}
+
+.bright_icon {
+  margin: 0px 0px;
+  color: #fffddf;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.module_essid {
+    font-size: 18;
+    color: #279DAD;
+  margin: 0px 10px 0px 0px;
+}
+.module-wif {
+    font-size: 22;
+    color: #279DAD;
+  margin: 0px 10px 0px 5px;
+}
 
 .works {
 font-size: 27px;
