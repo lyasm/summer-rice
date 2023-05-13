@@ -1,0 +1,20 @@
+#! /bin/bash
+
+active = $(hyprctl activeworkspace)
+
+case $active in
+  1)
+    hyprctl hyprpaper wallpaper "eDP-1,~/wall/wall.1.png"
+    
+  2)
+    hyprctl hyprpaper wallpaper "eDP-1,~/wall/wall.2.png"
+    
+  3)
+    hyprctl hyprpaper wallpaper "eDP-1,~/wall/wall.3.png"
+    
+  4)
+    hyprctl hyprpaper wallpaper "eDP-1,~/wall/wall.4.png"
+    
+  *)
+    echo "Error"
+esac
