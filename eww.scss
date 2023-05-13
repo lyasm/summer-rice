@@ -37,7 +37,7 @@ tooltip label {
 
 .right_modules {
     background: linear-gradient(to bottom, #FFDAB9, #FFA07A);
-border-radius: 15px;
+ border-radius: 15px;
 margin: 5px 0px 0px 0px;
 padding: 0px 7px 0px 7px;
 }
@@ -105,6 +105,7 @@ scale trough {
 
 .volbar scale trough highlight {
   all: unset;
+
   background-color: #9E4323;
   border-radius: 4px;
 }
@@ -177,4 +178,13 @@ border-radius: 15px;
 /* Focused */
 .011, .022, .033, .044, .055, .066, .077, .088, .099{
     color:  #9e4323;
+}
+
+
+
+wave {
+   background: rgba(200,0,0,0);
+   background-position: 1446px 0px;
+   background-size: 473px 100px;
+   
 }

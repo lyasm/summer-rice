@@ -1,5 +1,6 @@
 ;; Variables
 
+
 (defpoll monitors :interval "1m" "hyprctl monitors -j | jq -rc '[ .[].id ] | sort_by( . )'")
 (deflisten workspace "scripts/workspace")
 (defpoll wlan-status :interval "2s" "nmcli g | grep -v STATE| awk '{print ($1)}'")
@@ -10,6 +11,8 @@
 (defpoll vol_perc :interval "5ms" "amixer sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
 (defpoll bright_perc :interval "5ms" "brightnessctl | grep Current | awk -F'(' '{ print $2 }' | tr -d '%)'")
 
+(defpoll cpu :interval "1s" "cat /proc/stat |grep cpu |tail -1|awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}'|awk '{print 100-$1}'"
+(defpoll ram :interval "1s" "")
 ;; widgets
 ;;TODO:
 ;;	mem/cpu 
@@ -131,24 +134,3 @@ time " | KW: " week
     :windowtype "dock"
     (box :orientation "h"
     (left)(right)))
-
-
-
-(defwindow wave
-
-           :monitor 0
-           :geometry (geometry :x "0%"
-                               :y "-1px"
-                               :width "543px"
-                               :height "20px"
-                               :anchor "top right")
-           :stacking "fg"
-
-        (wave))
-
-        (defwidget wave []
-        (box
-        :class "wave"
-        (image
-             :path "/home/paul/Downloads/output-onlinegiftools.gif"
-       )))
